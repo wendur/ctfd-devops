@@ -1,0 +1,38 @@
+app_name: ctfd
+image: ctfd/ctfd
+metadata:
+  name: ctfd-deployment
+
+securityContext:
+  fsGroup: 2000
+
+ports:
+  port:  80
+  containerPort: 8000
+  protocol: TCP
+
+service:
+  clusterIP: None
+
+containers:
+  env:
+    UPLOAD_FOLDER: "/var/uploads"
+    LOG_FOLDER: "/var/log/CTFd"
+    WORKERS: "1"
+    ACCESS_LOG: "-"
+    ERROR_LOG: "-"
+    REVERSE_PROXY: "true"
+
+subprotocol: 
+  db: "mysql+pymysql://"
+  redis: "redis://"
+
+login: ctfd
+password: :ctfd@
+dbname: /ctfd
+
+dbPodName: "db-mariadb"
+redisPodName: "redis-master"
+redisPort: ":6379"
+namespace: ".default"
+clusterName: ".svc.cluster.local"
